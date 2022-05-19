@@ -1,5 +1,5 @@
 FROM node:12
-COPY . /nodeapp
+COPY ./app/ /nodeapp
 WORKDIR /nodeapp
 RUN npm install
 ENV RDS_HOSTNAME = "localhost"
