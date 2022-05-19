@@ -1,0 +1,64 @@
+1- add s3 of terraform state of dev workspcae as trigger for lambda function 
+2- lambda code 
+
+import json
+import boto3
+from botocore.exceptions import ClientError
+def lambda_handler(event, context):
+    # TODO implement
+    SENDER = "mohamedsamboiti@gmail.com"
+    RECIPIENT = "mohamedsamboiti@gmail.com"
+    AWS_REGION = 'eu-central-1'
+    SUBJECT = "Dev workspace infrastructure change"
+    BODY_TEXT = ("Amazon SES Test (Python)\r\n"
+                 "This email was sent with Amazon SES using the "
+                 "AWS SDK for Python (Boto)."
+                )
+
+    # The HTML body of the email.
+    BODY_HTML = """\
+       <html>
+           <head></head>
+           <body>
+              <h1>Hello!</h1>
+                     <p>Please see the attached file for a list of customers to contact.</p>
+           </body>
+       </html>
+      """
+    # Create a new SES resource and specify a region.
+    client = boto3.client('ses',region_name=AWS_REGION)
+    # The character encoding for the email.
+    CHARSET = "UTF-8"
+    try:
+        #Provide the contents of the email.
+        response = client.send_email(
+            Destination={
+                'ToAddresses': [
+                    RECIPIENT ,
+                    ],
+            },
+            Message={
+                'Body':{
+                    'Html':{
+                        'Charset': CHARSET,
+                        'Data'   : BODY_HTML,
+                    },
+                    
+                    'Text':{
+                       'Charset': CHARSET,
+                        'Data'   : BODY_TEXT,
+                    },
+                },
+                'Subject':{
+                           'Charset': CHARSET,
+                            'Data'   : SUBJECT,
+                        },
+            },
+            Source = SENDER,
+        )
+    # Display an error if something goes wrong. 
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        print("Email sent! Message ID:"),
+        print(response['MessageId'])

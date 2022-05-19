@@ -1,0 +1,71 @@
+sudo aws secretsmanager get-secret-value --region us-east-1 --secret-id private_key --query 'SecretString' --output text > private.pem
+ssh-add -k private.pem 
+ssh -A ec2-user@ip-of-bastion
+terraform workspace show
+terraform workspace list
+terraform workspace new dev
+terraform workspace select dev
+terraform init
+terraform plan --var-file=dev.tfvars
+
+
+terraform force-unlock -force ID
+
+##########################################
+creating rds service for database -> relational database service
+1- creating mysql rds free tier
+2- creating password nd username 
+3- creating subnet group through private subnets 
+4- make sure that port 3306 is open "default"
+5- attaching security group with inbound on 3306  "so important"
+6- creating initial database 
+7- connecting on ec2 instance through ec2 instance 
+important : to connect on rds needs : 
+1- user name 
+2- password 
+3- hostname  - rds link
+4- attached security group to rds has open port 3306
+
+note: create it without username and password
+##########################################
+creating elsastic cash service - cashing data related to backend, so fast retrieving data due to memory usage 
+1- choosing its default port 6379
+2- choosing t2-micro 
+3- number of replicas = 1 
+4- multi availability zone 
+5- creating subnet group through private subnets 
+6- attaching security group with inbound on 6379  "so important"
+important : to connect on rds needs : 
+1- hostname  
+2- attached security group to rds has open port 6379
+
+#############################################
+very important note :
+private security group wich would be attached to (ec2 app server , rds , redis)
+shall have ingress ports open for 
+3000 -> to access app on http browser 
+3306 -> to access rds 
+6379 -> to access redis 
+
+############################################
+chmod 400 dev_private.pem
+ssh-add -k dev_private.pem
+ssh -A ubuntu@instance public ip
+
+###########################################
+connecting to redis from public instance 
+apt-get update
+sudo apt-get upgrade 
+sudo apt install make gcc libc6-dev tcl
+wget http://download.redis.io/redis-stable.tar.gz 
+tar xvzf redis-stable.tar.gz 
+cd redis-stable 
+sudo make install 
+make test
+src/redis-cli -h redis-cluster.oxfuyr.0001.euc1.cache.amazonaws.com -c -p 6379
+
+###########################################
+connecting to rds from public instance 
+sudo apt update 
+sudo apt install mysql-client 
+mysql -h iti-rds-education.co0p6oayoed3.eu-central-1.rds.amazonaws.com -P 3306 -u admin -P

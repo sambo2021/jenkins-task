@@ -1,0 +1,58 @@
+# creatig an ubuntu machine 
+# installing open jdk cause all jenkins tasks need java run time environment 
+# creating directory to enable master-jenkins save on this slave all tasks
+# configuring ssh to enable master to coneect this slave 
+FROM ubuntu
+#using root to apt update and install
+USER root
+
+RUN mkdir -p jenkins_home
+RUN chmod 777 jenkins_home
+RUN apt-get update && apt-get install -y lsb-release
+RUN apt-get install -y git
+RUN apt-get install -y curl apt-transport-https ca-certificates gnupg2 software-properties-common
+RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc https://download.docker.com/linux/ubuntu/gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) \
+    signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
+    https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+RUN apt-get update 
+RUN apt-get -y install docker-ce-cli
+RUN groupadd docker
+
+#need java run time enivironment to run jenkins tasks
+RUN apt-get install openjdk-8-jdk -qq
+#on aws ec2 instance dont need this steps as ssh service is 
+#installed for all ec2 instances by default
+RUN apt-get install openssh-server -qq
+RUN useradd -ms /bin/bash jenkins
+RUN usermod -aG docker jenkins 
+USER jenkins
+WORKDIR jenkins_home
+CMD ["/bin/bash"]
+
+# building image 
+# docker build -t jenkins-slave -f slave-Dockerfile .
+# tag the image 
+# docker tag jenkins-slave  mohamedsambo/jenkins-slave-agent:v1.0 
+# push image to dockerhub
+# docker push mohamedsambo/jenkins-slave-agent:v1.0
+# run a container from image 
+# docker run -d -it -v /var/run/docker.sock:/var/run/docker.sock jenkins-slave 
+# exec contianer to configure ssh authorized_keys
+# docker exec -it contianer-id bash 
+# mkdir ~/.ssh
+# from your local machine ->>>>> after generating keys on your local machine , cat ~/.ssh/id_rsa.pub 
+# on bash of this container ->>> echo "out of previous command" > ~/.ssh/authorized_keys
+# then need to start ssh service and this needs root permissions so exit container and exec again with root user 
+# docker exec -it -u root contianer-id bash
+# service ssh start 
+# service ssh status 
+#------------------------------------------------------------------------------------------------------------------
+# till now everything is okay and this container is a complete slave for jenkins
+# now we need to configure that slave as jenkins agent node on jenkins master dashboard 
+# and add private key to ssh successfully on this slave 
+
+
+
+

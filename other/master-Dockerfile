@@ -1,0 +1,79 @@
+FROM jenkins/jenkins:lts
+USER root
+RUN apt-get update && apt-get install -y lsb-release
+RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc https://download.docker.com/linux/debian/gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) \
+    signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
+    https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+RUN apt-get update && apt-get install -y docker-ce-cli
+RUN groupadd docker
+RUN usermod -aG docker jenkins
+USER jenkins
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#as we need a user called jenkins to be created on this master jenkins node 
+#for the purpose of ssh laterly on my slaes nodes 
+#it gonna be explained laterly on configuring ssh connection by ansible 
+#note : take care this step is not essential cause that user gonna ssh on salve instnaces gonna be configured in master-jenkins-dashboard credentials 
+#You need to add the new username in the docker group:
+#RUN usermod -a -G docker newUser
+#beside it will be used a user to use ansible scripts i need it to run docker commands 
+#RUN usermod -a -G docker jenkins
+#---------------------------------------------------------------------------------------------------------------------------------------------------------
+#now build this docer file with considering mount your host daemon directory to a directory inside this node by using -v
+#this step is needed to connect internal docker cli with the outside docker daemon of your host 
+#to know furthermore , each command run b docker searches for docker daemon directory which is /var/run/docker.sock
+#means that docker daemon listens for http on unix (/var/run/docker.sock)
+#building image 
+#docker build -t jenkins-master -f master-Dockerfile .
+#tag the image 
+#docker tag jenkins-master  mohamedsambo/jenkins-master:v1.0 
+#push image to dockerhub
+#docker push mohamedsambo/jenkins-master:v1.0
+#run a container from image 
+#docker run -d -it -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock jenkins-master
+#exec contianer to check docker daemon mounting (/var/run/docker.sock) is okay 
+#docker exec -it contianer-id bash 
+#on you local docker host 
+#docker build -t jenkins-master -f master-Dockerfile
+#then you need to be logged into your dockerhub to push this image 
+#you ant to access this master node so on your docker host 
+#docker exec -it jenkins-master bash
+#to check Check if the user was added:
+#cat /etc/group | grep docker
+
+
+
+
