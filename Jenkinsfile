@@ -28,12 +28,17 @@ pipeline {
                 }
           }
         }
-        stage('terraform build'){
+        stage('terraform plain'){
           steps{
              withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
-         
                 sh 'terraform plan --var-file=dev.tfvars'
-                //sh 'terraform apply --auto-approve --var-file=dev.tfvars'
+                }
+          }
+        }
+         stage('terraform build'){
+          steps{
+             withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
+                sh 'terraform apply  --var-file=dev.tfvars --auto-approve'
                 }
           }
         }
