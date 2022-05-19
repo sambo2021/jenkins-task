@@ -32,7 +32,7 @@ pipeline {
           steps{
              withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
          
-                sh 'terraform plan --var-file=dev.tfvars --auto-approve'
+                sh 'terraform plan --var-file=dev.tfvars'
                 //sh 'terraform apply --auto-approve --var-file=dev.tfvars'
                 }
           }
