@@ -38,7 +38,8 @@ pipeline {
          stage('terraform build'){
           steps{
              withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
-                sh 'terraform apply  --var-file=dev.tfvars --auto-approve'
+                 //sh 'terraform apply  --var-file=dev.tfvars --auto-approve'
+                   sh 'terraform destroy  --var-file=dev.tfvars --auto-approve'
                 }
           }
         }
