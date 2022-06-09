@@ -3,7 +3,7 @@
 - this image shall have docker cli to use it to run some docker commands on slave 
 - using mounting volumes to connect your local docker daemon to docker cli inside that container of master jenkins  
 jenkins-master docker file which i called it master-Dockerfile : 
--   
+   
      ```sh
      FROM jenkins/jenkins:lts
      USER root
