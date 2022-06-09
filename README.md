@@ -138,7 +138,7 @@ jenkins-master docker file which i called it master-Dockerfile :
 - external load balancer existes on public subnet and targeting private instance on port 80 *so that we opened port 80 on private subnet * and listen to incomin traffic on LP dns as http from port 80 that opened on public security group 
 - using local exec provisioning to downlaod TF_key.pem on my jenkins master and configure it in ~/.ssh dir to use it later 
   in ssh two instances public and private 
-- need some outputs such as 
+- ## need some outputs such as 
       ### - loadbalancer_dns_name   -> that what we gonna use
       ### - Application_Instance_IP -> gonna use it in jenkins master ~/.ssh/config file and ssh command 
       ### - Bastion_Instance_IP     -> gonna use it in jenkins master ~/.ssh/config file and ssh command
