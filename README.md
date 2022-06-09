@@ -1,4 +1,4 @@
-# for creating local master-jenkins on your local host 
+# For creating local master-jenkins on your local host 
 - use master docker file to build image of jenkins master to run a container later from this image 
 - this image shall have docker cli to use it to run some docker commands on slave 
 - using mounting volumes to connect your local docker daemon to docker cli inside that container of master jenkins  
@@ -37,7 +37,7 @@ jenkins-master docker file which i called it master-Dockerfile :
     #### - github username and password 
 - creating ci pipeline on jenkins master to build infrastructure, ssh on private instance and configure ansible on. 
 
-# for ansible file that donna run on private instance that would later created as a jenkins slave 
+# For ansible file that gonna run on private instance that would later created as a jenkins slave 
 - making a jenkins_home directory 
 - installing java jdk 
 - installing docker cli and daemon to deploy our application as container 
@@ -46,7 +46,7 @@ jenkins-master docker file which i called it master-Dockerfile :
    briefly * the slave would act as a master that connect with git repo and deploy the application on its docker run time environement  *
 
 
-# terraform code to build our infrastructure on aws  
+# Terraform code to build our infrastructure on aws  
 - create 2 subnets , public and private one 
 - public subnet would have the bastion host 
 - private would have the private instance , rds and elastic casch which are required to run our app 
