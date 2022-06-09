@@ -46,6 +46,7 @@ pipeline {
           steps{
              withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
                 // sh 'terraform apply  --var-file=prod.tfvars --auto-approve'
+                //now we need
                  sh """
                 chmod 400 ~/.ssh/TF_key.pem
                 echo "

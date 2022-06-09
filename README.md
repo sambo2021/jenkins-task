@@ -135,9 +135,55 @@ jenkins-master docker file which i called it master-Dockerfile :
 - public subnet would have the bastion host 
 - private would have the private instance , rds and elastic casch which are required to run our app 
 - private security group would have ports 22,80,443,3000,3306 and 6379 ingress for various purposes such as ssh,http, rds and elastic cash ports handlig comin request of application pod
-- external load balancer existes on public subnet and targeting private instance on port 80 *so that we opened port 80 on private subnet * and listen to incomin traffic on LP dns as http from port 80 that opened on public security group  
-
+- external load balancer existes on public subnet and targeting private instance on port 80 *so that we opened port 80 on private subnet * and listen to incomin traffic on LP dns as http from port 80 that opened on public security group 
+- using local exec provisioning to downlaod TF_key.pem on my jenkins master and configure it in ~/.ssh dir to use it later 
+  in ssh two instances public and private 
+- need some outputs such as 
+      ### - loadbalancer_dns_name   -> that what we gonna use
+      ### - Application_Instance_IP -> gonna use it in jenkins master ~/.ssh/config file and ssh command 
+      ### - Bastion_Instance_IP     -> gonna use it in jenkins master ~/.ssh/config file and ssh command
+      ### - RDS_HOSTNAME            -> used as env variable in application 
+      ### - RDS_PORT                -> used as env variable in application
+      ### - REDIS_HOSTNAME          -> used as env variable in application
+      ### - REDIS_PORT              -> used as env variable in application
 
 # SSH Proxy Command : Going through one host to reach another server 
+- you may notice that at the last two steps in jenkins file 
+- now we need to add the private instance under the name private to use it later as hoast name such like /etc/hosts 1270.0.0.1
+  localhost , the purpose of that to use them in ssh and applying ansible code with the name of private and bastion instead of using ips , also configuring the port number that jenkins master will ssh private instance on and its ip which is terraform output Application_Instance_IP comes out of output.tf and adentify the private key that jenkins master would ssh by which is ~/.ssh/TF_key.pem
+- StrictHostKeyChecking no -> when StrictHostKeyChecking is enabled the ssh client connects only to known hosts with valid ssh host keys that are stored in the known hosts list, briefly this still means hostkeys are still added to .ssh/known_hosts but you wont be prompted about whether you trust them and to avoid the warning that comes after changing hosts if that happen for any reason we gonna add UserKnownHostsFile /dev/null
+- UserKnownHostsFile /dev/null -> this adds newly discovered hosts to the trash bin to add advantage of if a host key changes
+  then there is no problem 
+  ```sh
+  stage('Configure SSH'){
+          steps{
+             withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
+                // sh 'terraform apply  --var-file=prod.tfvars --auto-approve'
+                
+                 sh """
+                chmod 400 ~/.ssh/TF_key.pem
+                echo "
+               Host private
+                     Port 22
+                     HostName `terraform output Application_Instance_IP`
+                     User ubuntu
+                     IdentityFile ~/.ssh/TF_key.pem
+                     StrictHostKeyChecking no
+                     UserKnownHostsFile /dev/null
+                     ServerAliveInterval 60
+                     ServerAliveCountMax 30
+                  Host bastion
+                     HostName  `terraform output Bastion_Instance_IP`
+                     User ubuntu
+                     StrictHostKeyChecking no
+                     UserKnownHostsFile /dev/null
+                     IdentityFile ~/.ssh/TF_key.pem
+                  " >  ~/.ssh/config
+                """
+                }
+               
+             }
+          }
+  ```
 
 
