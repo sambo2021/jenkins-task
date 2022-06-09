@@ -191,5 +191,6 @@ jenkins-master docker file which i called it master-Dockerfile :
   - label private slave cause i use at jenkins file label (! private-slave ) to run that pipeline through the byuit-in node "master slave"
   - in proxy command that ~/.ssh/TF_key.pem on jenkins master 
   - in proxy command that ubuntu@private  the user of private instance is ubuntu and i already resolved its private ip to the hostname private in ~/.ssh/config file on master jenkins 
+  - in proxy command that exec java -jar ~/bin/agent.jar means executing this command on private instance after ssh to activate it as jenkins agent 
 
 
