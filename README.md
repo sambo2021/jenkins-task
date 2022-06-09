@@ -139,13 +139,13 @@ jenkins-master docker file which i called it master-Dockerfile :
 - using local exec provisioning to downlaod TF_key.pem on my jenkins master and configure it in ~/.ssh dir to use it later 
   in ssh two instances public and private 
 - ## need some outputs such as 
-      - ###  loadbalancer_dns_name   -> that what we gonna use
-      - ###  Application_Instance_IP -> gonna use it in jenkins master ~/.ssh/config file and ssh command 
-      - ###  Bastion_Instance_IP     -> gonna use it in jenkins master ~/.ssh/config file and ssh command
-      - ###  RDS_HOSTNAME            -> used as env variable in application 
-      - ###  RDS_PORT                -> used as env variable in application
-      - ###  REDIS_HOSTNAME          -> used as env variable in application
-      - ###  REDIS_PORT              -> used as env variable in application
+      -   loadbalancer_dns_name   -> that what we gonna use
+      -   Application_Instance_IP -> gonna use it in jenkins master ~/.ssh/config file and ssh command 
+      -   Bastion_Instance_IP     -> gonna use it in jenkins master ~/.ssh/config file and ssh command
+      -   RDS_HOSTNAME            -> used as env variable in application 
+      -   RDS_PORT                -> used as env variable in application
+      -   REDIS_HOSTNAME          -> used as env variable in application
+      -   REDIS_PORT              -> used as env variable in application
 
 # SSH Proxy Command : Going through one host to reach another server 
 - you may notice that at the last two steps in jenkins file 
