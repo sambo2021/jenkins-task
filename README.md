@@ -44,7 +44,8 @@ jenkins-master docker file which i called it master-Dockerfile :
 - copying the previously downloaded jar file to bin dir -> it is needed for making this ec2 as jenkins slave later 
 - finally install git , we gonna need it in another pipline cuase it will be executed from the slave ec2 instance to deploy the application on it 
    briefly * the slave would act as a master that connect with git repo and deploy the application on its docker run time environement *
-   ```sh
+
+```sh
 - hosts: private
   remote_user: ubuntu
   become: yes
