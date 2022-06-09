@@ -45,7 +45,7 @@ jenkins-master docker file which i called it master-Dockerfile :
 - finally install git , we gonna need it in another pipline cuase it will be executed from the slave ec2 instance to deploy the application on it 
    briefly * the slave would act as a master that connect with git repo and deploy the application on its docker run time environement *
    ```sh
-      - hosts: private
+- hosts: private
   remote_user: ubuntu
   become: yes
   gather_facts: no
