@@ -1,6 +1,7 @@
-- hosts: server-a
+- hosts: private
   remote_user: ubuntu
   become: yes
+  gather_facts: no
   tasks: 
     - name: update apt 
       apt:
@@ -16,11 +17,6 @@
       apt:
         name: openjdk-8-jdk 
         state: present
-
-    - name: install curl package
-      apt: 
-        pkg: 
-         - curl 
 
     - name: Install required system packages
       apt:
@@ -84,5 +80,5 @@
         name: git
         state: latest
        
-# coniguring ssh, jdk like what we did on docker slave 
+# configuring ssh, jdk like what we did on docker slave 
 # ansible-playbook --private-key aws-slave.pem -i inventory ansible-ec2.yml
