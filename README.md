@@ -43,7 +43,90 @@ jenkins-master docker file which i called it master-Dockerfile :
 - installing docker cli and daemon to deploy our application as container 
 - copying the previously downloaded jar file to bin dir -> it is needed for making this ec2 as jenkins slave later 
 - finally install git , we gonna need it in another pipline cuase it will be executed from the slave ec2 instance to deploy the application on it 
-   briefly * the slave would act as a master that connect with git repo and deploy the application on its docker run time environement  *
+   briefly * the slave would act as a master that connect with git repo and deploy the application on its docker run time environement *
+   ```sh
+      - hosts: private
+  remote_user: ubuntu
+  become: yes
+  gather_facts: no
+  tasks: 
+    - name: update apt 
+      apt:
+        update_cache: yes
+    
+    - name: creating directory 
+      file:
+        name: jenkins_home
+        state: directory
+        mode: 0777
+
+    - name: installing java 
+      apt:
+        name: openjdk-8-jdk 
+        state: present
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    # sudo groupadd docker
+    - name: Create "docker" group
+      group:
+        name: "docker"
+        state: present
+
+    # sudo usermod -aG docker root
+    - name: Add remote "ubuntu" user to "docker" group
+      user:
+        name: "ubuntu"
+        groups: "docker"
+        append: yes
+    
+    - name: Creating bin directory 
+      file: 
+        path: /home/ubuntu/bin
+        state: directory
+        mode: 0777
+    
+    - name: copying the agent jar to the slave 
+      copy:
+        src:  agent.jar
+        dest: /home/ubuntu/bin/agent.jar
+  
+    - name: install git 
+      apt:
+        name: git
+        state: latest
+   ```
 
 
 # Terraform code to build our infrastructure on aws  
