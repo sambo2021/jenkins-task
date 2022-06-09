@@ -186,4 +186,10 @@ jenkins-master docker file which i called it master-Dockerfile :
           }
   ```
 
+  - now at adding that private instance as jemkins slave node i shall provide its name private and lable private-slave and ssh during proxy command -> ssh -o ProxyCommand="ssh -W %h:%p -q bastion" -i ~/.ssh/TF_key.pem ubuntu@private exec java -jar ~/bin/agent.jar
+
+  - label private slave cause i use at jenkins file label (! private-slave ) to run that pipeline through the byuit-in node "master slave"
+  - in proxy command that ~/.ssh/TF_key.pem on jenkins master 
+  - in proxy command that ubuntu@private  the user of private instance is ubuntu and i already resolved its private ip to the hostname private in ~/.ssh/config file on master jenkins 
+
 
