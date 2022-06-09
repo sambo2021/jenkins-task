@@ -28,13 +28,13 @@ jenkins-master docker file which i called it master-Dockerfile :
 -  hit your browser at  hhtp://localhost:8080/
 - then you can configure your username and password 
 - by default jenkins saves all its configurations and installed plugins at /var/jenkins_home 
-- # needed plugins to install on master jenkins 
-    ### - Pipeline AWS steps to apply terraform on aws 
-    ### - cloudBees AWS credentials to save the credentials in jenkins
-    ### - terraform tool
-- # secrets and credentials needed on master jenkins 
-    ### - docker hub username and password
-    ### - github username and password 
+- ### needed plugins to install on master jenkins 
+    #### - Pipeline AWS steps to apply terraform on aws 
+    #### - cloudBees AWS credentials to save the credentials in jenkins
+    #### - terraform tool
+- ### secrets and credentials needed on master jenkins 
+    #### - docker hub username and password
+    #### - github username and password 
 - creating ci pipeline on jenkins master to build infrastructure, ssh on private instance and configure ansible on. 
 
 # for ansible file that donna run on private instance that would later created as a jenkins slave 
