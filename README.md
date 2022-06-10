@@ -1,4 +1,9 @@
-![docker](https://badgen.net/docker/stars/library/mongo?icon=docker&label=stars)
+![docker](https://img.shields.io/badge/Docker-Container-blue)
+![terraform](https://img.shields.io/badge/Terraform-Infrastructure-darkblue)
+![ansible](https://img.shields.io/badge/Ansible-Configuration-lightblack)
+![jenkins](https://img.shields.io/badge/Jenkins-Automation-grey)
+![aws](https://img.shields.io/badge/AWS-CloudProvider-yellow)
+
 
 
 
