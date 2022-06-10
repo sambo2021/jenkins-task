@@ -1,4 +1,4 @@
-!\[alt text\](https://badgen.net/badge/:Terraform/:used/:color?icon=terraform)
+!\[terraform\](https://badgen.net/badge/:Terraform/:used/:blue?icon=terraform)
 
 
 # For creating local master-jenkins on your local host 
