@@ -36,50 +36,52 @@ pipeline {
          stage('terraform build'){
           steps{
              withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
-                   sh 'terraform apply  --var-file=dev.tfvars --auto-approve'
-                   //sh 'terraform destroy  --var-file=dev.tfvars --auto-approve'
+                   //sh 'terraform apply  --var-file=dev.tfvars --auto-approve'
+                   sh 'terraform destroy  --var-file=dev.tfvars --auto-approve'
                 }
           }
         }
 
-        stage('Configure SSH'){
-          steps{
-             withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
-                // sh 'terraform apply  --var-file=prod.tfvars --auto-approve'
-                //now we need
-                 sh """
-                chmod 400 ~/.ssh/TF_key.pem
-                echo "
-               Host private
-                     Port 22
-                     HostName `terraform output Application_Instance_IP`
-                     User ubuntu
-                     IdentityFile ~/.ssh/TF_key.pem
-                     StrictHostKeyChecking no
-                     UserKnownHostsFile /dev/null
-                     ServerAliveInterval 60
-                     ServerAliveCountMax 30
-                  Host bastion
-                     HostName  `terraform output Bastion_Instance_IP`
-                     User ubuntu
-                     StrictHostKeyChecking no
-                     UserKnownHostsFile /dev/null
-                     IdentityFile ~/.ssh/TF_key.pem
-                  " >  ~/.ssh/config
-                """
-                }
+      //   stage('Configure SSH'){
+      //     steps{
+      //        withAWS(credentials: 'jenkins-user', region: 'us-west-2') {
+      //           // sh 'terraform apply  --var-file=prod.tfvars --auto-approve'
+      //           //now we need
+      //            sh """
+      //           chmod 400 ~/.ssh/TF_key.pem
+      //           echo "
+      //          Host private
+      //                Port 22
+      //                HostName `terraform output Application_Instance_IP`
+      //                User ubuntu
+      //                IdentityFile ~/.ssh/TF_key.pem
+      //                StrictHostKeyChecking no
+      //                UserKnownHostsFile /dev/null
+      //                ServerAliveInterval 60
+      //                ServerAliveCountMax 30
+      //             Host bastion
+      //                HostName  `terraform output Bastion_Instance_IP`
+      //                User ubuntu
+      //                StrictHostKeyChecking no
+      //                UserKnownHostsFile /dev/null
+      //                IdentityFile ~/.ssh/TF_key.pem
+      //             " >  ~/.ssh/config
+      //           """
+      //           }
                
-             }
-          }
+      //        }
+      //     }
 
-          stage ("Configure Private Instance With Ansible"){
-            steps{
-                  sh """
-                  ansible-playbook -i Ansible/inventory Ansible/ansible-ec2.yml
-                  """
-            }
-          }
+      //     stage ("Configure Private Instance With Ansible"){
+      //       steps{
+      //             sh """
+      //             ansible-playbook -i Ansible/inventory Ansible/ansible-ec2.yml
+      //             """
+      //       }
+      //     }
 
+    
+    
     }
      
   }
