@@ -1,3 +1,6 @@
+!\[alt text\](https://badgen.net/badge/:Terraform/:used/:color?icon=terraform)
+
+
 # For creating local master-jenkins on your local host 
 - use master docker file to build image of jenkins master to run a container later from this image 
 - this image shall have docker cli to use it to run some docker commands on slave 
