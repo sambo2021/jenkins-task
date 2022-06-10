@@ -1,7 +1,7 @@
 ![docker](https://img.shields.io/badge/Docker-Container-blue)
 ![terraform](https://img.shields.io/badge/Terraform-Infrastructure-darkblue)
 ![ansible](https://img.shields.io/badge/Ansible-Configuration-lightblack)
-![jenkins](https://img.shields.io/badge/Jenkins-Automation-grey)
+![jenkins](https://img.shields.io/badge/Jenkins-Automation-white)
 ![aws](https://img.shields.io/badge/AWS-CloudProvider-yellow)
 
 
